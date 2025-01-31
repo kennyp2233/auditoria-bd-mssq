@@ -1,0 +1,10 @@
+### ENVIAR SCRIPT
+POST http://localhost:3000/db-audit/upload HTTP/1.1
+Content-Type: application/json
+
+{
+    "script": "CREATE TABLE test (id INT PRIMARY KEY, name VARCHAR(50));" 
+}
+
+### RECIBIR RESPUESTA
+GET http://localhost:3000/db-audit/pdf-report HTTP/1.1
