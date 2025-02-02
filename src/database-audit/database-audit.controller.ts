@@ -11,10 +11,51 @@ import {
 import { Response } from 'express';
 import { DatabaseAuditService } from './database-audit.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { DatabaseConnectionDto } from './dto/database-connection.dto';
 
 @Controller('db-audit')
 export class DatabaseAuditController {
   constructor(private readonly dbAuditService: DatabaseAuditService) { }
+
+  /**
+     * 🔹 Conecta a una base de datos externa con credenciales dinámicas.
+     */
+  @Post('connect')
+  async connectToDatabase(
+    @Body() dbCredentials: DatabaseConnectionDto,
+    @Res() res: Response
+  ) {
+    try {
+      await this.dbAuditService.connectToDatabase(dbCredentials);
+      return res.status(HttpStatus.OK).json({
+        message: '✅ Conexión establecida con éxito',
+      });
+    } catch (error) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: '❌ Error al conectar con la base de datos',
+        error: error.message,
+      });
+    }
+  }
+
+  /**
+ * 🔹 Ejecuta el análisis sobre la BD conectada y retorna las anomalías encontradas.
+ */
+  @Post('run-audit')
+  async runAudit(@Res() res: Response) {
+    try {
+      const anomalies = await this.dbAuditService.executeAuditScripts();
+      return res.status(HttpStatus.OK).json({
+        message: '✅ Análisis completado',
+        anomalies,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: '❌ Error al ejecutar la auditoría',
+        error: error.message,
+      });
+    }
+  }
 
   /**
    * Sube una base de datos:

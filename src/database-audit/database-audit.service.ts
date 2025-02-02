@@ -14,6 +14,8 @@ import {
   TABLE_QUERIES,
 } from './sql/queries';
 import { cleanSQLScript, deleteAllTablesExceptAnomaly } from 'src/utils/database-utils';
+import { DatabaseConnectionDto } from './dto/database-connection.dto';
+
 
 /**
  * Servicio principal para:
@@ -24,6 +26,7 @@ import { cleanSQLScript, deleteAllTablesExceptAnomaly } from 'src/utils/database
 @Injectable()
 export class DatabaseAuditService {
   private readonly logger = new Logger(DatabaseAuditService.name);
+  private dynamicDataSource: DataSource | null = null; 
 
   constructor(
     // Inyectamos el DataSource de TypeORM para hacer queries nativos
@@ -258,6 +261,112 @@ export class DatabaseAuditService {
       );
     } catch (error) {
       this.logger.error(`Error registrando anomalía: ${error.message}`);
+    }
+  };
+
+  /**
+   * Conecta dinámicamente a una base de datos externa.
+   */
+  async connectToDatabase(dbCredentials: DatabaseConnectionDto): Promise<void> {
+    try {
+      this.logger.log(`Intentando conectar a la BD: ${dbCredentials.database}`);
+
+      // Cierra la conexión anterior si existe
+      if (this.dynamicDataSource) {
+        await this.dynamicDataSource.destroy();
+        this.dynamicDataSource = null;
+      }
+
+      // Crea una nueva conexión
+      this.dynamicDataSource = new DataSource({
+        type: 'mssql',
+        host: dbCredentials.host,
+        port: dbCredentials.port,
+        username: dbCredentials.username,
+        password: dbCredentials.password,
+        database: dbCredentials.database,
+        options: {
+          encrypt: false,
+          trustServerCertificate: true,
+        },
+      });
+
+      await this.dynamicDataSource.initialize();
+      this.logger.log('✅ Conexión establecida correctamente.');
+    } catch (error) {
+      this.logger.error(`❌ Error al conectar con la base de datos: ${error.message}`);
+      throw error;
+    }
+  }
+
+  /**
+   * Ejecuta los scripts de auditoría en la BD conectada.
+   */
+  async executeAuditScripts(): Promise<any[]> {
+    if (!this.dynamicDataSource) {
+      throw new Error('❌ No hay una conexión activa a una base de datos.');
+    }
+
+    this.logger.log('🔎 Ejecutando auditoría en la BD conectada...');
+    const queryRunner = this.dynamicDataSource.createQueryRunner();
+    await queryRunner.connect();
+
+    try {
+      const anomalies = [];
+
+      // 🔹 1. Obtener todas las tablas de usuario
+      const tables = await queryRunner.query(TABLE_QUERIES.GET_USER_TABLES);
+      anomalies.push({ step: 'user_tables', result: tables });
+
+      // 🔹 2. Revisar claves foráneas existentes en cada tabla
+      for (const t of tables) {
+        const tableName = t.table_name;
+
+        // Obtener claves foráneas
+        const existingFKs = await queryRunner.query(
+          TABLE_QUERIES.GET_EXISTING_FKS.replace('{TABLE_NAME}', tableName)
+        );
+        anomalies.push({ step: `existing_fks_${tableName}`, result: existingFKs });
+
+        // Obtener columnas de la tabla
+        const cols = await queryRunner.query(
+          TABLE_QUERIES.GET_TABLE_COLUMNS.replace('{TABLE_NAME}', tableName)
+        );
+        anomalies.push({ step: `table_columns_${tableName}`, result: cols });
+      }
+
+      // 🔹 3. Verificar integridad referencial en todas las claves foráneas
+      const fks = await queryRunner.query(TABLE_QUERIES.GET_ALL_FOREIGN_KEYS);
+      for (const fk of fks) {
+        const orphanQuery = REFERENTIAL_QUERIES.GET_ORPHAN_VALUES(
+          fk.column_name,
+          fk.table_name,
+          fk.referenced_table,
+          fk.referenced_column,
+        );
+        const orphans = await queryRunner.query(orphanQuery);
+        if (orphans.length > 0) {
+          anomalies.push({ step: `orphan_values_${fk.table_name}`, result: orphans });
+        }
+      }
+
+      // 🔹 4. Intentar un INSERT para detectar problemas de claves foráneas
+      try {
+        await queryRunner.query(CRUD_QUERIES.TEST_INSERT);
+      } catch (err) {
+        anomalies.push({
+          step: 'crud_anomalies',
+          result: `INSERT fallido (posible FK inexistente): ${err.message}`,
+        });
+      }
+
+      this.logger.log('✅ Análisis completado.');
+      return anomalies;
+    } catch (error) {
+      this.logger.error(`❌ Error en la auditoría: ${error.message}`);
+      throw error;
+    } finally {
+      await queryRunner.release();
     }
   }
 }

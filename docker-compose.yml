@@ -1,34 +1,39 @@
+version: '3.8'
 
 services:
-  mssql:
+  sqlserver1:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: mssql_server
+    container_name: sqlserver1
+    restart: always
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
+      SA_PASSWORD: "Passw0rd!"
       ACCEPT_EULA: "Y"
-      MSSQL_PID: "Developer"
     volumes:
-      - mssql_data:/var/opt/mssql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      
+      - ./scripts/sqlserver1/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  app:
-    build: .
-    container_name: nestjs_app
-    depends_on:
-      - mssql
+  sqlserver2:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver2
+    restart: always
     ports:
-      - "3000:3000"
+      - "1434:1433"
     environment:
-      DB_SERVER: mssql
-      DB_USER: sa
-      DB_PASSWORD: YourStrong!Passw0rd
-      DB_NAME: db_app
+      SA_PASSWORD: "Passw0rd!"
+      ACCEPT_EULA: "Y"
     volumes:
-      - .:/usr/src/app
-    command: npm run start
+      - ./scripts/sqlserver2/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-volumes:
-  mssql_data:
+  sqlserver3:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver3
+    restart: always
+    ports:
+      - "1435:1433"
+    environment:
+      SA_PASSWORD: "Passw0rd!"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./scripts/sqlserver3/init.sql:/docker-entrypoint-initdb.d/init.sql
+

@@ -1,0 +1,167 @@
+2025-02-02 20:57:32.19 Server      Microsoft SQL Server 2019 (RTM-CU30) (KB5049235) - 15.0.4415.2 (X64) 
+	Nov 18 2024 17:45:37 
+	Copyright (C) 2019 Microsoft Corporation
+	Developer Edition (64-bit) on Linux (Ubuntu 20.04.6 LTS) <X64>
+2025-02-02 20:57:32.21 Server      UTC adjustment: 0:00
+2025-02-02 20:57:32.22 Server      (c) Microsoft Corporation.
+2025-02-02 20:57:32.22 Server      All rights reserved.
+2025-02-02 20:57:32.22 Server      Server process ID is 376.
+2025-02-02 20:57:32.22 Server      Logging SQL Server messages in file '/var/opt/mssql/log/errorlog'.
+2025-02-02 20:57:32.23 Server      Registry startup parameters: 
+	 -d /var/opt/mssql/data/master.mdf
+	 -l /var/opt/mssql/data/mastlog.ldf
+	 -e /var/opt/mssql/log/errorlog
+2025-02-02 20:57:32.24 Server      SQL Server detected 1 sockets with 8 cores per socket and 8 logical processors per socket, 8 total logical processors; using 8 logical processors based on SQL Server licensing. This is an informational message; no user action is required.
+2025-02-02 20:57:32.26 Server      SQL Server is starting at normal priority base (=7). This is an informational message only. No user action is required.
+2025-02-02 20:57:32.27 Server      Detected 3136 MB of RAM. This is an informational message; no user action is required.
+2025-02-02 20:57:32.27 Server      Using conventional memory in the memory manager.
+2025-02-02 20:57:32.28 Server      Page exclusion bitmap is enabled.
+2025-02-02 20:57:32.45 Server      Buffer pool extension is not supported on Linux platform.
+2025-02-02 20:57:32.47 Server      Buffer Pool: Allocating 262144 bytes for 250098 hashPages.
+2025-02-02 20:57:32.94 Server      Buffer pool extension is already disabled. No action is necessary.
+2025-02-02 20:57:33.92 Server      Successfully initialized the TLS configuration. Allowed TLS protocol versions are ['1.0 1.1 1.2']. Allowed TLS ciphers are ['ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:!DHE-RSA-AES256-GCM-SHA384:!DHE-RSA-AES128-GCM-SHA256:!DHE-RSA-AES256-SHA:!DHE-RSA-AES128-SHA'].
+2025-02-02 20:57:34.29 Server      Query Store settings initialized with enabled = 1, 
+2025-02-02 20:57:34.47 Server      The maximum number of dedicated administrator connections for this instance is '1'
+2025-02-02 20:57:34.48 Server      Node configuration: node 0: CPU mask: 0x00000000000000ff:0 Active CPU mask: 0x00000000000000ff:0. This message provides a description of the NUMA configuration for this computer. This is an informational message only. No user action is required.
+2025-02-02 20:57:34.58 Server      Using dynamic lock allocation.  Initial allocation of 2500 Lock blocks and 5000 Lock Owner blocks per node.  This is an informational message only.  No user action is required.
+2025-02-02 20:57:34.79 Server      In-Memory OLTP initialized on lowend machine.
+2025-02-02 20:57:37.09 Server      CLR version v4.0.30319 loaded.
+2025-02-02 20:57:37.24 Server      [INFO] Created Extended Events session 'hkenginexesession'
+2025-02-02 20:57:37.38 Server      Database Instant File Initialization: enabled. For security and performance considerations see the topic 'Database Instant File Initialization' in SQL Server Books Online. This is an informational message only. No user action is required.
+2025-02-02 20:57:37.63 Server      Total Log Writer threads: 2. This is an informational message; no user action is required.
+2025-02-02 20:57:37.77 Server      Software Usage Metrics is disabled.
+2025-02-02 20:57:37.90 spid9s      [1]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2025-02-02 20:57:38.00 spid9s      Starting up database 'master'.
+2025-02-02 20:57:40.87 spid9s      Converting database 'master' from version 897 to the current version 904.
+2025-02-02 20:57:40.88 spid9s      Database 'master' running the upgrade step from version 897 to version 898.
+2025-02-02 20:57:41.08 spid9s      Database 'master' running the upgrade step from version 898 to version 899.
+2025-02-02 20:57:41.84 spid9s      Database 'master' running the upgrade step from version 899 to version 900.
+2025-02-02 20:57:42.07 spid9s      Database 'master' running the upgrade step from version 900 to version 901.
+2025-02-02 20:57:42.15 spid9s      Database 'master' running the upgrade step from version 901 to version 902.
+2025-02-02 20:57:42.33 spid9s      Database 'master' running the upgrade step from version 902 to version 903.
+2025-02-02 20:57:42.36 spid9s      Database 'master' running the upgrade step from version 903 to version 904.
+2025-02-02 20:57:44.45 spid9s      Resource governor reconfiguration succeeded.
+2025-02-02 20:57:44.48 spid9s      SQL Server Audit is starting the audits. This is an informational message. No user action is required.
+2025-02-02 20:57:44.60 spid9s      SQL Server Audit has started the audits. This is an informational message. No user action is required.
+2025-02-02 20:57:45.41 Server      Common language runtime (CLR) functionality initialized.
+2025-02-02 20:57:46.72 spid9s      SQL Trace ID 1 was started by login "sa".
+2025-02-02 20:57:47.06 Server      Failed to verify the Authenticode signature of 'C:\binn\sqlncli11.dll'. Signature verification of SQL Server DLLs will be skipped. Genuine copies of SQL Server are signed. Failure to verify the Authenticode signature might indicate that this is not an authentic release of SQL Server. Install a genuine copy of SQL Server or contact customer support.
+2025-02-02 20:57:47.26 spid41s     Password policy update was successful.
+2025-02-02 20:57:47.26 spid9s      Server name is '1c20ee8e5c29'. This is an informational message only. No user action is required.
+2025-02-02 20:57:47.41 spid43s     Always On: The availability replica manager is starting. This is an informational message only. No user action is required.
+2025-02-02 20:57:47.45 spid9s      [4]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2025-02-02 20:57:47.48 spid43s     Always On: The availability replica manager is waiting for the instance of SQL Server to allow client connections. This is an informational message only. No user action is required.
+2025-02-02 20:57:47.49 spid12s     [32767]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2025-02-02 20:57:47.55 spid9s      Starting up database 'msdb'.
+2025-02-02 20:57:47.61 spid12s     Starting up database 'mssqlsystemresource'.
+2025-02-02 20:57:47.92 spid12s     The resource database build version is 15.00.4415. This is an informational message only. No user action is required.
+2025-02-02 20:57:48.41 spid12s     [3]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2025-02-02 20:57:48.43 spid12s     Starting up database 'model'.
+2025-02-02 20:57:48.46 spid41s     A self-generated certificate was successfully loaded for encryption.
+2025-02-02 20:57:48.55 spid41s     Server is listening on [ 'any' <ipv6> 1433].
+2025-02-02 20:57:48.56 spid41s     Server is listening on [ 'any' <ipv4> 1433].
+2025-02-02 20:57:48.60 Server      Server is listening on [ ::1 <ipv6> 1434].
+2025-02-02 20:57:48.60 Server      Server is listening on [ 127.0.0.1 <ipv4> 1434].
+2025-02-02 20:57:48.61 Server      Dedicated admin connection support was established for listening locally on port 1434.
+2025-02-02 20:57:48.65 spid41s     Server is listening on [ ::1 <ipv6> 1431].
+2025-02-02 20:57:48.67 spid41s     Server is listening on [ 127.0.0.1 <ipv4> 1431].
+2025-02-02 20:57:48.69 spid41s     SQL Server is now ready for client connections. This is an informational message; no user action is required.
+2025-02-02 20:57:49.22 spid9s      Converting database 'msdb' from version 897 to the current version 904.
+2025-02-02 20:57:49.23 spid9s      Database 'msdb' running the upgrade step from version 897 to version 898.
+2025-02-02 20:57:49.28 spid9s      Database 'msdb' running the upgrade step from version 898 to version 899.
+2025-02-02 20:57:49.42 spid12s     Converting database 'model' from version 897 to the current version 904.
+2025-02-02 20:57:49.44 spid12s     Database 'model' running the upgrade step from version 897 to version 898.
+2025-02-02 20:57:49.49 spid12s     Database 'model' running the upgrade step from version 898 to version 899.
+2025-02-02 20:57:49.49 spid9s      Database 'msdb' running the upgrade step from version 899 to version 900.
+2025-02-02 20:57:49.58 spid9s      Database 'msdb' running the upgrade step from version 900 to version 901.
+2025-02-02 20:57:49.63 spid12s     Database 'model' running the upgrade step from version 899 to version 900.
+2025-02-02 20:57:49.64 spid9s      Database 'msdb' running the upgrade step from version 901 to version 902.
+2025-02-02 20:57:49.71 spid12s     Database 'model' running the upgrade step from version 900 to version 901.
+2025-02-02 20:57:49.74 spid12s     Database 'model' running the upgrade step from version 901 to version 902.
+2025-02-02 20:57:49.80 spid12s     Database 'model' running the upgrade step from version 902 to version 903.
+2025-02-02 20:57:49.82 spid12s     Database 'model' running the upgrade step from version 903 to version 904.
+2025-02-02 20:57:50.01 spid12s     Clearing tempdb database.
+2025-02-02 20:57:51.26 spid12s     [2]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2025-02-02 20:57:51.27 spid12s     Starting up database 'tempdb'.
+2025-02-02 20:57:51.74 spid12s     The tempdb database has 1 data file(s).
+2025-02-02 20:57:51.82 spid43s     The Service Broker endpoint is in disabled or stopped state.
+2025-02-02 20:57:51.86 spid43s     The Database Mirroring endpoint is in disabled or stopped state.
+2025-02-02 20:57:52.09 spid43s     Service Broker manager has started.
+2025-02-02 20:57:52.39 spid9s      Database 'msdb' running the upgrade step from version 902 to version 903.
+2025-02-02 20:57:52.42 spid9s      Database 'msdb' running the upgrade step from version 903 to version 904.
+2025-02-02 20:57:52.84 spid9s      Recovery is complete. This is an informational message only. No user action is required.
+2025-02-02 20:57:53.18 spid46s     The default language (LCID 0) has been set for engine and full-text services.
+2025-02-02 20:57:56.17 spid46s     The tempdb database has 8 data file(s).
+2025-02-02 21:01:46.37 Logon       Error: 18456, Severity: 14, State: 8.
+2025-02-02 21:01:46.37 Logon       Login failed for user 'sa'. Reason: Password did not match that for the login provided. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:29.98 spid51      Attempting to load library 'xplog70.dll' into memory. This is an informational message only. No user action is required.
+2025-02-02 21:04:30.12 spid51      Using 'xplog70.dll' version '2019.150.4415' to execute extended stored procedure 'xp_msver'. This is an informational message only; no user action is required.
+2025-02-02 21:04:34.22 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:34.22 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:34.35 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:34.35 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:34.58 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:34.58 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:35.03 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:35.03 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:35.88 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:35.88 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:36.91 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:36.91 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:37.96 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:37.96 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:38.99 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:38.99 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:40.03 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:40.03 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:41.07 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:41.07 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:42.12 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:42.12 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:43.15 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:43.15 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:44.19 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:44.19 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:45.23 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:45.23 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:46.27 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:46.27 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:47.32 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:47.32 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:48.36 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:48.36 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:49.41 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:49.41 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:50.44 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:50.44 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:51.47 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:51.47 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:52.51 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:52.51 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:53.55 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:53.55 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:54.60 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:54.60 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:55.64 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:55.64 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:56.68 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:56.68 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:57.73 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:57.73 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:58.80 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:58.80 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:04:59.86 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:04:59.86 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:05:00.94 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:05:00.94 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:05:01.99 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:05:01.99 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:05:03.03 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:05:03.03 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:05:04.09 Logon       Error: 18456, Severity: 14, State: 38.
+2025-02-02 21:05:04.09 Logon       Login failed for user 'sa'. Reason: Failed to open the explicitly specified database 'AnomalyDB1'. [CLIENT: 172.22.0.1]
+2025-02-02 21:12:56.83 spid9s      Always On: The availability replica manager is going offline because SQL Server is shutting down. This is an informational message only. No user action is required.
+2025-02-02 21:12:56.85 spid9s      SQL Server is terminating in response to a 'stop' request from Service Control Manager. This is an informational message only. No user action is required.
+2025-02-02 21:12:57.02 spid43s     Service Broker manager has shut down.
+2025-02-02 21:12:57.08 spid9s      .NET Framework runtime has been stopped.
+2025-02-02 21:12:57.37 spid9s      SQL Trace was stopped due to server shutdown. Trace ID = '1'. This is an informational message only; no user action is required.

@@ -10,8 +10,8 @@ import { DatabaseAuditModule } from './database-audit/database-audit.module';
             type: 'mssql',
             host: process.env.DB_SERVER || 'localhost',
             username: process.env.DB_USER || 'sa',
-            password: process.env.DB_PASSWORD || 'YourStrong!Passw0rd',
-            database: 'db_app',
+            password: process.env.DB_PASSWORD || 'Passw0rd!',
+            database: 'AnomalyDB1',
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             //synchronize: true,
             extra: {
