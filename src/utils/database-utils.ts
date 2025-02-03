@@ -7,32 +7,36 @@ import { QueryRunner } from 'typeorm';
 export async function deleteAllTablesExceptAnomaly(queryRunner: QueryRunner) {
     const logger = new Logger('DatabaseUtils');
 
-    logger.log('Eliminando todas las tablas excepto "Anomaly"...');
+    logger.log('⚠ Eliminando todas las tablas excepto "Anomaly"...');
 
-    // Obtener lista de tablas excepto "Anomaly"
-    const tables = await queryRunner.query(`
-    SELECT TABLE_NAME 
-    FROM INFORMATION_SCHEMA.TABLES 
-    WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'Anomaly'
-  `);
+    // Obtener lista de todas las tablas excepto "Anomaly"
+    const tables: { TABLE_NAME: string }[] = await queryRunner.query(`
+        SELECT TABLE_NAME 
+        FROM INFORMATION_SCHEMA.TABLES 
+        WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'Anomaly'
+    `);
 
-    // Deshabilitar restricciones antes de eliminar
-    await queryRunner.query('EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all"');
-
-    // Borrar todas las tablas encontradas
-    for (const table of tables) {
-        const tableName = table.TABLE_NAME;
-        logger.log(`Eliminando tabla: ${tableName}`);
-        await queryRunner.query(`DROP TABLE ${tableName}`);
+    if (tables.length === 0) {
+        logger.log('✅ No hay tablas para eliminar.');
+        return;
     }
 
-    // Habilitar restricciones nuevamente
+    // 🔹 Deshabilitar todas las restricciones de claves foráneas
+    logger.log('🔽 Desactivando restricciones de Foreign Keys...');
+    await queryRunner.query('EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all"');
+
+    // 🔹 Eliminar todas las tablas en el orden correcto
+    for (const { TABLE_NAME } of tables) {
+        logger.log(`🗑 Eliminando tabla: ${TABLE_NAME}...`);
+        await queryRunner.query(`DROP TABLE ${TABLE_NAME}`);
+    }
+
+    // 🔹 Reactivar las restricciones de claves foráneas
+    logger.log('🔼 Reactivando restricciones de Foreign Keys...');
     await queryRunner.query('EXEC sp_MSforeachtable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all"');
 
-    logger.log('Todas las tablas excepto "Anomaly" han sido eliminadas.');
+    logger.log('✅ Todas las tablas excepto "Anomaly" han sido eliminadas con éxito.');
 }
-
-
 /**
  * Limpia y sanitiza el script SQL:
  * 1. Remueve "CREATE DATABASE" y "USE".
