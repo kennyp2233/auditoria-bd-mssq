@@ -22,38 +22,55 @@ export async function deleteAllTablesExceptAnomaly(queryRunner: QueryRunner) {
         return;
     }
 
-    // 🔹 Deshabilitar restricciones de Foreign Key en todas las tablas
+    // 🔽 Deshabilitar restricciones de Foreign Key antes de eliminar tablas
     logger.log('🔽 Desactivando restricciones de Foreign Keys...');
     await queryRunner.query(`
-        EXEC sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
+        DECLARE @sql NVARCHAR(MAX) = '';
+        SELECT @sql += 'ALTER TABLE [' + TABLE_SCHEMA + '].[' + TABLE_NAME + '] NOCHECK CONSTRAINT ALL;' + CHAR(13)
+        FROM INFORMATION_SCHEMA.TABLES 
+        WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'Anomaly';
+        EXEC sp_executesql @sql;
     `);
 
-    // 🔹 Deshabilitar triggers para evitar errores de dependencias
+    // 🔽 Deshabilitar triggers para evitar errores de dependencias
     logger.log('🔽 Desactivando triggers...');
     await queryRunner.query(`
-        EXEC sp_MSforeachtable 'DISABLE TRIGGER ALL ON ?'
+        DECLARE @sql NVARCHAR(MAX) = '';
+        SELECT @sql += 'DISABLE TRIGGER ALL ON [' + TABLE_SCHEMA + '].[' + TABLE_NAME + '];' + CHAR(13)
+        FROM INFORMATION_SCHEMA.TABLES 
+        WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'Anomaly';
+        EXEC sp_executesql @sql;
     `);
 
-    // 🔹 Eliminar todas las tablas en el orden correcto
+    // 🔽 Eliminar todas las tablas en el orden correcto
     for (const { TABLE_NAME } of tables) {
         logger.log(`🗑 Eliminando tabla: ${TABLE_NAME}...`);
-        await queryRunner.query(`DROP TABLE [${TABLE_NAME}]`);
+        await queryRunner.query(`IF OBJECT_ID('${TABLE_NAME}', 'U') IS NOT NULL DROP TABLE [${TABLE_NAME}]`);
     }
 
-    // 🔹 Volver a habilitar restricciones de Foreign Key
+    // 🔼 Reactivar restricciones de Foreign Key después de eliminar las tablas
     logger.log('🔼 Reactivando restricciones de Foreign Keys...');
     await queryRunner.query(`
-        EXEC sp_MSforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'
+        DECLARE @sql NVARCHAR(MAX) = '';
+        SELECT @sql += 'ALTER TABLE [' + TABLE_SCHEMA + '].[' + TABLE_NAME + '] WITH CHECK CHECK CONSTRAINT ALL;' + CHAR(13)
+        FROM INFORMATION_SCHEMA.TABLES 
+        WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'Anomaly';
+        EXEC sp_executesql @sql;
     `);
 
-    // 🔹 Reactivar triggers
+    // 🔼 Reactivar triggers después de eliminar las tablas
     logger.log('🔼 Reactivando triggers...');
     await queryRunner.query(`
-        EXEC sp_MSforeachtable 'ENABLE TRIGGER ALL ON ?'
+        DECLARE @sql NVARCHAR(MAX) = '';
+        SELECT @sql += 'ENABLE TRIGGER ALL ON [' + TABLE_SCHEMA + '].[' + TABLE_NAME + '];' + CHAR(13)
+        FROM INFORMATION_SCHEMA.TABLES 
+        WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'Anomaly';
+        EXEC sp_executesql @sql;
     `);
 
     logger.log('✅ Todas las tablas excepto "Anomaly" han sido eliminadas con éxito.');
 }
+
 /**
  * Limpia y sanitiza el script SQL:
  * 1. Remueve "CREATE DATABASE" y "USE".
