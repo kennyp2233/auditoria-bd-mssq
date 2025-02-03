@@ -13,7 +13,7 @@ import {
   REFERENTIAL_QUERIES,
   TABLE_QUERIES,
 } from './sql/queries';
-import { cleanSQLScript, deleteAllTablesExceptAnomaly } from 'src/utils/database-utils';
+import { cleanSQLScript, clearAnomalyTable, deleteAllTablesExceptAnomaly } from 'src/utils/database-utils';
 import { DatabaseConnectionDto } from './dto/database-connection.dto';
 
 
@@ -26,7 +26,7 @@ import { DatabaseConnectionDto } from './dto/database-connection.dto';
 @Injectable()
 export class DatabaseAuditService {
   private readonly logger = new Logger(DatabaseAuditService.name);
-  private dynamicDataSource: DataSource | null = null; 
+  private dynamicDataSource: DataSource | null = null;
 
   constructor(
     // Inyectamos el DataSource de TypeORM para hacer queries nativos
@@ -65,19 +65,19 @@ export class DatabaseAuditService {
     }
 
     this.logger.log('Iniciando ejecución del script en la BD...');
-
     const queryRunner = this.dataSource.createQueryRunner();
     try {
       await queryRunner.connect();
+      // Asegurarse de trabajar en la base de datos correcta
       await queryRunner.query(`USE AnomalyDB1;`);
 
-      // 🔹 Eliminar todas las tablas excepto "Anomaly"
+      // Eliminar todas las tablas excepto "Anomaly" con manejo de deadlock
       await deleteAllTablesExceptAnomaly(queryRunner);
 
-      // 🔹 Limpiar el script eliminando "CREATE DATABASE" y "USE ..."
+      // Limpiar el script eliminando instrucciones de creación de BD y USE
       script = cleanSQLScript(script);
 
-      // 🔹 Ejecutamos el nuevo script
+      // Ejecutar el script (se asume que las sentencias están separadas por "GO")
       await this.executeSQLScript(script, queryRunner);
 
       this.logger.log('Script ejecutado exitosamente.');
@@ -88,8 +88,8 @@ export class DatabaseAuditService {
       await queryRunner.release();
     }
 
-    // Limpiamos anomalías anteriores
-    this.anomalyCollector.clear();
+    // Limpiar la tabla de anomalías de forma aislada (manejo propio de transacción y reintentos)
+    await clearAnomalyTable(this.dataSource);
   }
 
 
@@ -158,7 +158,7 @@ export class DatabaseAuditService {
       const existingFKs = await this.dataSource.query(
         TABLE_QUERIES.GET_EXISTING_FKS.replace('@tableName', tableName)
       );
-      
+
       const fkColumns = new Set(existingFKs.map((x) => x.column_name));
 
       const cols = await this.dataSource.query(

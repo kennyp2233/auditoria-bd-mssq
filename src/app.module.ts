@@ -13,7 +13,7 @@ import { DatabaseAuditModule } from './database-audit/database-audit.module';
             password: process.env.DB_PASSWORD || 'Passw0rd!',
             database: 'AnomalyDB1',
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
-            //synchronize: true,
+            synchronize: true,
             extra: {
                 options: {
                     encrypt: true,
