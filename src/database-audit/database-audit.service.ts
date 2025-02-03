@@ -69,7 +69,7 @@ export class DatabaseAuditService {
     const queryRunner = this.dataSource.createQueryRunner();
     try {
       await queryRunner.connect();
-      await queryRunner.query(`USE db_app;`);
+      await queryRunner.query(`USE AnomalyDB1;`);
 
       // 🔹 Eliminar todas las tablas excepto "Anomaly"
       await deleteAllTablesExceptAnomaly(queryRunner);
