@@ -13,7 +13,8 @@ export async function deleteAllTablesExceptAnomaly(queryRunner: QueryRunner) {
     const tables: { TABLE_NAME: string }[] = await queryRunner.query(`
         SELECT TABLE_NAME 
         FROM INFORMATION_SCHEMA.TABLES 
-        WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'Anomaly'
+        WHERE TABLE_TYPE = 'BASE TABLE' 
+        AND TABLE_NAME <> 'Anomaly'
     `);
 
     if (tables.length === 0) {
@@ -21,19 +22,35 @@ export async function deleteAllTablesExceptAnomaly(queryRunner: QueryRunner) {
         return;
     }
 
-    // 🔹 Deshabilitar todas las restricciones de claves foráneas
+    // 🔹 Deshabilitar restricciones de Foreign Key en todas las tablas
     logger.log('🔽 Desactivando restricciones de Foreign Keys...');
-    await queryRunner.query('EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all"');
+    await queryRunner.query(`
+        EXEC sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
+    `);
+
+    // 🔹 Deshabilitar triggers para evitar errores de dependencias
+    logger.log('🔽 Desactivando triggers...');
+    await queryRunner.query(`
+        EXEC sp_MSforeachtable 'DISABLE TRIGGER ALL ON ?'
+    `);
 
     // 🔹 Eliminar todas las tablas en el orden correcto
     for (const { TABLE_NAME } of tables) {
         logger.log(`🗑 Eliminando tabla: ${TABLE_NAME}...`);
-        await queryRunner.query(`DROP TABLE ${TABLE_NAME}`);
+        await queryRunner.query(`DROP TABLE [${TABLE_NAME}]`);
     }
 
-    // 🔹 Reactivar las restricciones de claves foráneas
+    // 🔹 Volver a habilitar restricciones de Foreign Key
     logger.log('🔼 Reactivando restricciones de Foreign Keys...');
-    await queryRunner.query('EXEC sp_MSforeachtable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all"');
+    await queryRunner.query(`
+        EXEC sp_MSforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'
+    `);
+
+    // 🔹 Reactivar triggers
+    logger.log('🔼 Reactivando triggers...');
+    await queryRunner.query(`
+        EXEC sp_MSforeachtable 'ENABLE TRIGGER ALL ON ?'
+    `);
 
     logger.log('✅ Todas las tablas excepto "Anomaly" han sido eliminadas con éxito.');
 }
